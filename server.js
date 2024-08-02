@@ -13,7 +13,15 @@ const corsOptions = {
   methods: "GET,POST,PUT,DELETE", // Specify allowed methods
   allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
 };
-
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Replace '*' with your frontend domain if needed
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 // Use CORS with specified options
 app.use(cors(corsOptions));
 
