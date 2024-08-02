@@ -6,7 +6,16 @@ const util = require("util");
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
-app.use(cors());
+
+// Configure CORS options
+const corsOptions = {
+  origin: "https://backend-images-seven.vercel.app/", // Replace with your frontend's domain
+  methods: "GET,POST,PUT,DELETE", // Specify allowed methods
+  allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
+};
+
+// Use CORS with specified options
+app.use(cors(corsOptions));
 
 // Multer setup
 const storage = multer.memoryStorage(); // Store file in memory
