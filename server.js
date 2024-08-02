@@ -9,7 +9,7 @@ const cors = require("cors");
 
 // Configure CORS options
 const corsOptions = {
-  origin: "http://localhost:5173", // Remove trailing slash
+  origin: "https://videoarchive.vercel.app", // Remove trailing slash
   methods: "GET,POST,PUT,DELETE", // Specify allowed methods
   allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
 };
