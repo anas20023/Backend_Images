@@ -14,7 +14,7 @@ const corsOptions = {
   allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
 };
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Replace '*' with your frontend domain if needed
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // Replace '*' with your frontend domain if needed
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH"
