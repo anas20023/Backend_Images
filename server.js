@@ -9,19 +9,11 @@ const cors = require("cors");
 
 // Configure CORS options
 const corsOptions = {
-  origin: "http://localhost:5173/", // Replace with your frontend's domain
+  origin: "http://localhost:5173", // Remove trailing slash
   methods: "GET,POST,PUT,DELETE", // Specify allowed methods
   allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
 };
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // Replace '*' with your frontend domain if needed
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+
 // Use CORS with specified options
 app.use(cors(corsOptions));
 
@@ -37,6 +29,7 @@ const bufferToStream = (buffer) => {
   return stream;
 };
 const port = process.env.PORT || 5000;
+
 // File upload route
 app.post("/upload", upload.single("file"), async (req, res) => {
   try {
@@ -60,8 +53,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     res.status(500).json({ error: "An error occurred" });
   }
 });
+
 // Configure Cloudinary with your credentials
-app.use(express.json());
 const name = process.env.CLD_NAME;
 const api_key = process.env.CLD_API_KEY;
 const api_secret = process.env.CLD_API_SECRET;
@@ -71,6 +64,7 @@ cloudinary.config({
   api_secret: api_secret,
   secure: true,
 });
+
 app.get("/api/videos", async (req, res) => {
   try {
     // Fetch all videos
@@ -97,8 +91,9 @@ app.get("/api/videos", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send({ msg: "Server  Working well" });
+  res.send({ msg: "Server working well" });
 });
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
