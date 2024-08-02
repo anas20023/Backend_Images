@@ -64,8 +64,13 @@ app.get("/api/videos", async (req, res) => {
       max_results: 500, // Adjust based on your needs
     });
 
-    // Map the result to the required format
-    const videoData = result.resources.map((video) => ({
+    // Ensure videos are sorted with the most recent one first
+    const sortedVideos = result.resources.sort((a, b) => {
+      return new Date(b.created_at) - new Date(a.created_at); // Sort by creation date
+    });
+
+    // Map the sorted result to the required format
+    const videoData = sortedVideos.map((video) => ({
       url: video.secure_url,
       title: video.public_id,
     }));
@@ -76,6 +81,7 @@ app.get("/api/videos", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch videos" });
   }
 });
+
 app.get("/", (req, res) => {
   res.send({ msg: "Server  Working well" });
 });
