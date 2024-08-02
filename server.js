@@ -1,16 +1,19 @@
 const express = require("express");
 const cloudinary = require("cloudinary").v2;
 const app = express();
+require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 // Configure Cloudinary with your credentials
+const name = process.env.CLD_NAME;
+const api_key = process.env.CLD_API_KEY;
+const api_secret = process.env.CLD_API_SECRET;
 cloudinary.config({
-  cloud_name: "dv7sp7pxk",
-  api_key: "267412423169762",
-  api_secret: "MhpbKaw8g0otKKehIlWsebgnwDI",
+  cloud_name: name,
+  api_key: api_key,
+  api_secret: api_secret,
   secure: true,
 });
-
 // Route to fetch all videos from Cloudinary
 app.get("/api/videos", async (req, res) => {
   try {
@@ -33,7 +36,9 @@ app.get("/api/videos", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch videos" });
   }
 });
-
+app.get("/", (req, res) => {
+  res.json({ msg: "Server  Working well" });
+});
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
