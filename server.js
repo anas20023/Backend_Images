@@ -54,7 +54,6 @@ cloudinary.config({
   api_secret: api_secret,
   secure: true,
 });
-// Route to fetch all videos from Cloudinary
 app.get("/api/videos", async (req, res) => {
   try {
     // Fetch all videos
@@ -64,11 +63,14 @@ app.get("/api/videos", async (req, res) => {
       max_results: 500, // Adjust based on your needs
     });
 
-    // Map the result to the required format
-    const videoData = result.resources.map((video) => ({
-      url: video.secure_url,
-      title: video.public_id,
-    }));
+    // Map the result to include the upload date and sort by it
+    const videoData = result.resources
+      .map((video) => ({
+        url: video.secure_url,
+        title: video.public_id,
+        created_at: video.created_at, // Include the creation date
+      }))
+      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); // Sort by creation date
 
     res.json(videoData);
   } catch (error) {
