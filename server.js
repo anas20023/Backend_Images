@@ -9,7 +9,7 @@ const cors = require("cors");
 
 // Configure CORS options
 const corsOptions = {
-  origin: "http://localhost:5173", // Replace with your frontend's domain
+  origin: "http://localhost:5173/", // Replace with your frontend's domain
   methods: "GET,POST,PUT,DELETE", // Specify allowed methods
   allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
 };
