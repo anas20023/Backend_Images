@@ -5,6 +5,7 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 // Configure Cloudinary with your credentials
+app.use(express.json());
 const name = process.env.CLD_NAME;
 const api_key = process.env.CLD_API_KEY;
 const api_secret = process.env.CLD_API_SECRET;
