@@ -2,6 +2,9 @@ const express = require("express");
 const cloudinary = require("cloudinary").v2;
 const app = express();
 require("dotenv").config();
+const cors = require('cors');
+app.use(cors());
+
 const port = process.env.PORT || 5000;
 
 // Configure Cloudinary with your credentials
