@@ -37,7 +37,7 @@ app.get("/api/videos", async (req, res) => {
   }
 });
 app.get("/", (req, res) => {
-  res.json({ msg: "Server  Working well" });
+  res.send({ msg: "Server  Working well" });
 });
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
