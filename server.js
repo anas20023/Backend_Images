@@ -1,12 +1,48 @@
 const express = require("express");
+const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
+const { Readable } = require("stream");
+const util = require("util");
 const app = express();
 require("dotenv").config();
-const cors = require('cors');
+const cors = require("cors");
 app.use(cors());
 
-const port = process.env.PORT || 5000;
+// Multer setup
+const storage = multer.memoryStorage(); // Store file in memory
+const upload = multer({ storage: storage });
 
+// Convert buffer to stream
+const bufferToStream = (buffer) => {
+  const stream = new Readable();
+  stream.push(buffer);
+  stream.push(null);
+  return stream;
+};
+const port = process.env.PORT || 5000;
+// File upload route
+app.post("/upload", upload.single("file"), async (req, res) => {
+  try {
+    const { public_id } = req.body; // Extract public ID from request body
+    const stream = bufferToStream(req.file.buffer);
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        resource_type: "video",
+        public_id: public_id, // Use the public ID provided by the user
+      },
+      (error, result) => {
+        if (error) {
+          return res.status(500).json({ error: "Upload failed" });
+        }
+        res.json({ public_id: result.public_id }); // Return the public ID
+      }
+    );
+
+    stream.pipe(uploadStream);
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
 // Configure Cloudinary with your credentials
 app.use(express.json());
 const name = process.env.CLD_NAME;
