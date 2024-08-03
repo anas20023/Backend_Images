@@ -8,14 +8,11 @@ require("dotenv").config();
 const cors = require("cors");
 
 // Configure CORS options
-const corsOptions = {
-  origin: "https://videoarchive.vercel.app", // Remove trailing slash
-  methods: "GET,POST,PUT,DELETE", // Specify allowed methods
-  allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
-};
-
-// Use CORS with specified options
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: "https://videoarchive.vercel.app", // Your frontend origin
+  })
+);
 
 // Multer setup
 const storage = multer.memoryStorage(); // Store file in memory
