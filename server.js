@@ -45,7 +45,7 @@ const bufferToStream = (buffer) => {
 const port = process.env.PORT || 5000;
 
 // File upload route
-app.post("/upload", upload.single("file"), async (req, res) => {
+app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {
     const { public_id } = req.body; // Extract public ID from request body
     const stream = bufferToStream(req.file.buffer);
