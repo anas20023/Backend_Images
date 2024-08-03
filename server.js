@@ -9,14 +9,14 @@ const cors = require("cors");
 
 // Configure CORS options
 const corsOptions = {
-  origin: "https://videoarchive.vercel.app", // Remove trailing slash
+  origin: "http://localhost:5173", // Remove trailing slash
   methods: "GET,POST,PUT,DELETE", // Specify allowed methods
   allowedHeaders: "Content-Type,Authorization", // Specify allowed headers
 };
 
 // Use CORS with specified options
 app.use(cors(corsOptions));
-
+ F
 // Multer setup
 const storage = multer.memoryStorage(); // Store file in memory
 const upload = multer({ storage: storage });
