@@ -2,10 +2,10 @@ const express = require("express");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { Readable } = require("stream");
-const util = require("util");
 const cors = require("cors");
-const app = express();
 require("dotenv").config();
+
+const app = express();
 
 // Configure CORS options
 const allowedOrigins = [
@@ -42,6 +42,18 @@ const bufferToStream = (buffer) => {
   stream.push(null);
   return stream;
 };
+
+// Configure Cloudinary with your credentials
+const name = process.env.CLD_NAME;
+const api_key = process.env.CLD_API_KEY;
+const api_secret = process.env.CLD_API_SECRET;
+cloudinary.config({
+  cloud_name: name,
+  api_key: api_key,
+  api_secret: api_secret,
+  secure: true,
+});
+
 const port = process.env.PORT || 5000;
 
 // File upload route
@@ -58,37 +70,26 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
         if (error) {
           return res.status(500).json({ error: "Upload failed" });
         }
-        res.json({ public_id: result.public_id }); // Return the public ID
+        res.json({ public_id: result.public_id, url: result.secure_url, created_at: result.created_at }); // Return the public ID, URL, and creation date
       }
     );
 
     stream.pipe(uploadStream);
   } catch (error) {
+    console.error("Upload error:", error);
     res.status(500).json({ error: "An error occurred" });
   }
 });
 
-// Configure Cloudinary with your credentials
-const name = process.env.CLD_NAME;
-const api_key = process.env.CLD_API_KEY;
-const api_secret = process.env.CLD_API_SECRET;
-cloudinary.config({
-  cloud_name: name,
-  api_key: api_key,
-  api_secret: api_secret,
-  secure: true,
-});
-
+// Fetch all videos
 app.get("/api/videos", async (req, res) => {
   try {
-    // Fetch all videos
     const result = await cloudinary.api.resources({
       type: "upload",
       resource_type: "video",
       max_results: 500, // Adjust based on your needs
     });
 
-    // Map the result to include the upload date and sort by it
     const videoData = result.resources
       .map((video) => ({
         url: video.secure_url,
