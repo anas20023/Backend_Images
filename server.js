@@ -3,9 +3,9 @@ const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { Readable } = require("stream");
 const util = require("util");
+const cors = require("cors");
 const app = express();
 require("dotenv").config();
-const cors = require("cors");
 
 // Configure CORS options
 app.use(
