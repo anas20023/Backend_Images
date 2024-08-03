@@ -10,7 +10,7 @@ require("dotenv").config();
 // Configure CORS options
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://videoarchive.vercel.app",
+  "https://www.videoarchive.studio",
 ];
 
 const corsOptions = {
