@@ -16,7 +16,7 @@ const corsOptions = {
 
 // Use CORS with specified options
 app.use(cors(corsOptions));
- F
+
 // Multer setup
 const storage = multer.memoryStorage(); // Store file in memory
 const upload = multer({ storage: storage });
