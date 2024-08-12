@@ -70,7 +70,11 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
         if (error) {
           return res.status(500).json({ error: "Upload failed" });
         }
-        res.json({ public_id: result.public_id, url: result.secure_url, created_at: result.created_at }); // Return the public ID, URL, and creation date
+        res.json({
+          public_id: result.public_id,
+          url: result.secure_url,
+          created_at: result.created_at,
+        }); // Return the public ID, URL, and creation date
       }
     );
 
@@ -90,13 +94,11 @@ app.get("/api/videos", async (req, res) => {
       max_results: 500, // Adjust based on your needs
     });
 
-    const videoData = result.resources
-      .map((video) => ({
-        url: video.secure_url,
-        title: video.public_id,
-        created_at: video.created_at, // Include the creation date
-      }))
-      .sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); // Sort by creation date
+    const videoData = result.resources.map((video) => ({
+      url: video.secure_url,
+      title: video.public_id,
+      created_at: video.created_at, // Include the creation date
+    }));
 
     res.json(videoData);
   } catch (error) {
